@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+var https = require("https");
 const vision = require('@google-cloud/vision');
 
 let GCP_CLIENT = null; // Lazy Initialzation
@@ -14,45 +15,53 @@ exports.handle = (req, res) => {
   var url = req.body.url;
   if (url == null) res.end("Bad request");
 
-  let client = getGCPClient();
-  setTimeout(handleRequest, 1000, req, res, url);
-};
-
-async function handleRequest(req, res, url) {
+  // async function handleRequest(req, res, url) {
   console.log("URL : " + url);
 
   // Initialize the GCP Client if necessary
   let client = getGCPClient();
 
-  // Prepare the Image Object (Undocument in nodejs client but define in AbstractImageAnnotation)
-  var imageObject = {
-    image: {
-      source: {
-        imageUri: url
+  // Download the FIle instead of asking Vision API to do it 
+  var request = https.get(url, function (response) {
+    var buffer = Buffer.alloc(0);
+
+    // Download in progress
+    response.on('data', (d) => {
+      buffer = Buffer.concat([buffer, Buffer.from(d, "binary")]);
+    });
+
+    // Download Completed
+    response.on('end', async () => {
+      console.log(`Download completed ${buffer.length}`);
+
+      // Trigger Google Cloud Client Detect 
+      var [results] = await client.textDetection(buffer);
+
+      // Handle the Vision Detection Result
+      let annotation = results.fullTextAnnotation;
+      let response = null;
+      if (results.error != null) {
+        response = {
+          code: results.error.code.toString(),
+          message: results.error.message
+        };
+      } else {
+        response = {
+          code: "000",
+          message: annotation.text.replace(/(\r\n|\n|\r)/gm, " "),
+          raw: annotation
+        }
       }
-    }
-  }
+      
+      // Send Response
+      res.status(200).send(JSON.stringify(response));
 
-  // Trigger Google Cloud Client Detect 
-  var [results] = await client.textDetection(imageObject);
+    });
 
-  // Handle the Result
-  let annotation = results.fullTextAnnotation;
-  let response = null;
-  if (annotation == null)
-  {
-    response = { code : "099", message :"URL do not contains any text" };
-  }
-  else{
-    response = {
-      code : "000",
-      message : annotation.text.replace(/(\r\n|\n|\r)/gm, " "),
-      raw : annotation
-    }
-  }
-  
-  // Send Response
-  res.status(200).send(JSON.stringify(response));
+  }).on('error', function (err) { // Handle errors
+    console.log(err)
+    res.end(`Unknown error :  ${err}`);
+  });
 }
 
 function getGCPClient() {
