@@ -4,35 +4,36 @@ Cloud Function to proceed google cloud vision text
 # Request Parameter
 Content-Type : "application/json"
 
-Body 
+```Body 
 {
     url : IMAGE_URL
 }
+```
 
 Response
-
+```
 {
     code : "200",
     message : The parsable message
     raw : Raw information from GCP Response
 }
-
+```
 Failure case
 If no URL passed : Bad request
 
 If the image is not contains any text
-{
+```{
     code : "099",
     message : "URL do not contains any text"
-}
+}```
 
 
 Setup
 Require a .env file and credential.json which is download from Google Vision API
 
 .env
-GOOGLE_APPLICATION_CREDENTIALS=key/credential.json
-
+* GOOGLE_APPLICATION_CREDENTIALS=key/credential.json
+```
 credential.json
 {
     "type": "service_account",
@@ -46,7 +47,7 @@ credential.json
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/%40appspot.gserviceaccount.com"
 }
-
+```
 # Deployment
 Local Simulator  
     functions deploy handle --trigger-http
