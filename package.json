@@ -1,0 +1,29 @@
+{
+  "name": "vision_text",
+  "version": "1.0.0",
+  "description": "Cloud Function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Norman K K Kong",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/vision": "^0.24.0",
+    "dotenv": "^6.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/normankong/gcp_vision_text.git"
+  },
+  "keywords": [
+    "GCP",
+    "CloudFunction",
+    "VisionText"
+  ],
+  "bugs": {
+    "url": "https://github.com/normankong/gcp_vision_text/issues"
+  },
+  "homepage": "https://github.com/normankong/gcp_vision_text#readme"
+}
