@@ -31,7 +31,8 @@ Setup
 Require a .env file and credential.json which is download from Google Vision API
 
 .env
-GOOGLE_APPLICATION_CREDENTIALS=key/credential.json
+The credential.json must be on the ROOT folder for cloud function
+GOOGLE_APPLICATION_CREDENTIALS=credential.json
 
 credential.json
 {

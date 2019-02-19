@@ -15,10 +15,10 @@ exports.handle = (req, res) => {
   if (url == null) res.end("Bad request");
 
   let client = getGCPClient();
-  setTimeout(quickstart, 1000, req, res, url);
+  setTimeout(handleRequest, 1000, req, res, url);
 };
 
-async function quickstart(req, res, url) {
+async function handleRequest(req, res, url) {
   console.log("URL : " + url);
 
   // Initialize the GCP Client if necessary
