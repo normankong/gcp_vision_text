@@ -25,13 +25,14 @@ If the image is not contains any text
 ```{
     code : "099",
     message : "URL do not contains any text"
-}```
+}
+```
 
 
-Setup
+# Setup
 Require a .env file and credential.json which is download from Google Vision API
 
-.env
+* .env
 * GOOGLE_APPLICATION_CREDENTIALS=key/credential.json
 ```
 credential.json
@@ -49,7 +50,7 @@ credential.json
 }
 ```
 # Deployment
-Local Simulator  
+* Local Simulator  
     functions deploy handle --trigger-http
-Read Log
+* Read Log
     functions logs read
