@@ -13,7 +13,7 @@ Content-Type : "application/json"
 Response
 ```
 {
-    code : "200",
+    code : "000",
     message : The parsable message
     raw : Raw information from GCP Response
 }
@@ -33,7 +33,7 @@ If the image is not contains any text
 Require a .env file and credential.json which is download from Google Vision API
 
 * .env
-* GOOGLE_APPLICATION_CREDENTIALS=key/credential.json
+* GOOGLE_APPLICATION_CREDENTIALS=credential.json
 ```
 credential.json
 {
