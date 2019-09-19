@@ -10,7 +10,9 @@ let GCP_CLIENT = null; // Lazy Initialzation
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.handle = (req, res) => {
+exports.processImageToText = (req, res) => {
+
+  console.log(`Process processImageToText`);
 
   var url = req.body.url;
   if (url == null) res.end("Bad request");
