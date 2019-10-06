@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 var https = require("https");
+const authHelper = require("./lib/authHelper.js");
+
 const vision = require('@google-cloud/vision');
 
 let GCP_CLIENT = null; // Lazy Initialzation
@@ -13,6 +15,12 @@ let GCP_CLIENT = null; // Lazy Initialzation
 exports.processImageToText = (req, res) => {
 
   console.log(`Process processImageToText`);
+
+  var opts = {
+    req: req,
+    res: res
+  }
+  if (!authHelper().verifyToken(opts)) return;
 
   var url = req.body.url;
   if (url == null) res.end("Bad request");
